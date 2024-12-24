@@ -108,7 +108,9 @@ class Account
    function  search($keyword)
    {
        $query="select account_date_start, account_date_end, account_money
-               from ".$this->table_name." ";
+               from ".$this->table_name." WHERE CAST(account_date_start AS TEXT) LIKE ?
+                 OR CAST(account_date_end AS TEXT) LIKE ?
+                 OR CAST(account_money AS TEXT) LIKE ?";
 
        $stmt = $this->conn->prepare($query);
        $keyword=htmlspecialchars(strip_tags($keyword));

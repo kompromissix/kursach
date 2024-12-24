@@ -76,20 +76,25 @@ class Clients
        }
        return false;
    }
-   function  searchtwo($keyword)
-   {
-       $query="select clients_name, clients_passports, clients_address, clients_telephone
-               from ".$this->table_name." ";
+    function  searchtwo($keyword)
+    {
+        $query="select clients_name, clients_passports, clients_address, clients_telephone
+              FROM " . $this->table_name . "
+              WHERE clients_name LIKE ?
+                 OR clients_passports LIKE ?
+                 OR clients_address LIKE ?
+                 OR clients_telephone LIKE ?";
 
-       $stmt = $this->conn->prepare($query);
-       $keyword=htmlspecialchars(strip_tags($keyword));
-       $keyword="%$keyword%";
-       $stmt->bindParam(1,$keyword);
-       $stmt->bindParam(2,$keyword);
-       $stmt->bindParam(3,$keyword);
-       $stmt->execute();
-       return $stmt;
-   }
+        $stmt = $this->conn->prepare($query);
+        $keyword=htmlspecialchars(strip_tags($keyword));
+        $keyword="%$keyword%";
+        $stmt->bindParam(1,$keyword);
+        $stmt->bindParam(2,$keyword);
+        $stmt->bindParam(3,$keyword);
+        $stmt->bindParam(4,$keyword);
+        $stmt->execute();
+        return $stmt;
+    }
    function updatetwo()
    {
        $query = "update " . $this->table_name . " set clients_name=:clients_name,

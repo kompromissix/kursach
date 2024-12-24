@@ -5,7 +5,7 @@ use objects\Deposit;
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/database.php';
-include_once '../objects/Clients.php';
+include_once '../objects/Deposit.php';
 $database = new Database();
 $db = $database->getConnection();
 $clients = new Deposit($db);

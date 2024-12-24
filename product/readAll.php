@@ -18,7 +18,7 @@ if ($num > 0) {
         extract($row);
         $clients_item = array(
             "clients_id" => $clients_id,
-            "clients_name" => $pclients_name,
+            "clients_name" => $clients_name,
             "clients_passports" => $clients_passports,
             "clients_address" => $clients_address,
             "clients_telephone" => $clients_telephone,

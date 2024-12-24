@@ -24,7 +24,7 @@ class Deposit
    {
 
        // Запрос для добавления нового пользователя в БД
-       $query = "INSERT INTO " . $this->table_name . " (deposit_name,deposit_time_months,deposit_bid) values (:deposit_name,:deposit_time_months,:deposit_bid)";
+       $query = "INSERT INTO " . $this->table_name . " (deposit_id, deposit_name,deposit_time_months,deposit_bid) values (:deposit_id, :deposit_name,:deposit_time_months,:deposit_bid)";
 
        // Подготовка запроса
        $stmt = $this->conn->prepare($query);
@@ -78,7 +78,10 @@ class Deposit
    function  searchthree($keyword)
    {
        $query="select deposit_name, deposit_time_months, deposit_bid
-               from ".$this->table_name." ";
+              FROM " . $this->table_name . "
+              WHERE deposit_name LIKE ?
+                 OR CAST(deposit_time_months AS TEXT) LIKE ?
+                 OR deposit_bid LIKE ?";
 
        $stmt = $this->conn->prepare($query);
        $keyword=htmlspecialchars(strip_tags($keyword));
@@ -101,9 +104,9 @@ class Deposit
        $this->deposit_bid = htmlspecialchars(strip_tags($this->deposit_bid));
        $this->deposit_id = htmlspecialchars(strip_tags($this->deposit_id));
 
-       $stmt->bindParam(':product_name',$this->deposit_name);
-       $stmt->bindParam(':description',$this->deposit_time_months);
-       $stmt->bindParam(':price',$this->deposit_bid);
+       $stmt->bindParam(':deposit_name',$this->deposit_name);
+       $stmt->bindParam(':deposit_time_months',$this->deposit_time_months);
+       $stmt->bindParam(':deposit_bid',$this->deposit_bid);
        $stmt->bindParam(':deposit_id',$this->deposit_id);
 
        if($stmt->execute()){
