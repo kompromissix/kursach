@@ -1,6 +1,6 @@
 <?php
 
-use objects\Product;
+use objects\Account;
 
 header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
@@ -8,7 +8,7 @@ header("Access-Control-Allow-Origin: *");
     include_once '../objects/Account.php';
     $database = new Database();
     $db = $database->getConnection();
-    $product = new Product($db);
+    $product = new Account($db);
     $stmt=$product->read();
     $num = $stmt->rowCount();
     if($num>0){
@@ -17,12 +17,12 @@ header("Access-Control-Allow-Origin: *");
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $product_item=array(
-                "product_id"=>$product_id,
-                "product_name"=>$product_name,
-                "price"=>$price,
-                "category_id"=>$category_id,
-                "description"=>$description,
-                "created"=>$created
+                "account_id"=>$account_id,
+                "deposit_id"=>$deposit_id,
+                "clients_id"=>$clients_id,
+                "account_date_start"=>$account_date_start,
+                "account_date_end"=>$account_date_end,
+                "account_money"=>$account_money
             );
             $product_arr["records"][] = $product_item;
         }

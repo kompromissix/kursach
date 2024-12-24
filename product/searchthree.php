@@ -1,17 +1,17 @@
 <?php
 
-use objects\Account;
+use objects\Deposit;
 
 header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
     include_once '../config/database.php';
-    include_once '../objects/Account.php';
+    include_once '../objects/Deposit.php';
 
     $database = new Database();
     $db = $database->getConnection();
-    $product = new Account($db);
+    $product = new Deposit($db);
     $keywords = isset($_GET['s']) ? $_GET['s'] : "";
-    $stmt = $product->search($keywords);
+    $stmt = $product->searchthree($keywords);
     $num = $stmt->rowCount();
     if($num>0){
         $products_arr = array();
@@ -19,9 +19,9 @@ header("Access-Control-Allow-Origin: *");
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $product_item = array(
-                "account_date_start" => $account_date_start,
-                "account_date_end" => $account_date_end,
-                "account_money" => $account_money
+                "deposit_name" => $deposit_name,
+                "deposit_time_months" => $deposit_time_months,
+                "deposit_bid" => $deposit_bid,
             );
             array_push($products_arr["records"], $product_item);
         }
@@ -30,5 +30,5 @@ header("Access-Control-Allow-Origin: *");
     }
     else{
         http_response_code(404);
-        echo json_encode(array("message" => "Счёт не найден."),JSON_UNESCAPED_UNICODE);
+        echo json_encode(array("message" => "Товары не найдены."),JSON_UNESCAPED_UNICODE);
     }

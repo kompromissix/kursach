@@ -1,30 +1,28 @@
 <?php
-use objects\Account;
+use objects\Deposit;
 header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
     header("Access-Control-Allow-Methods: PUT");
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     include_once '../config/database.php';
-    include_once '../objects/Account.php';
+    include_once '../objects/Deposit.php';
     $database = new Database();
     $db = $database->getConnection();
-    $product = new Account($db);
+    $product = new Deposit($db);
     $data = json_decode(file_get_contents("php://input"));
-    $product->account_id = $data->account_id;
     $product->deposit_id = $data->deposit_id;
-    $product->clients_id = $data->clients_id;
-    $product->account_date_start = $data->account_date_start;
-    $product->account_date_end = $data->account_date_end;
-    $product->account_money = $data->account_money;
-    if($product->update()){
+    $product->deposit_name = $data->deposit_name;
+    $product->deposit_time_months = $data->deposit_time_months;
+    $product->deposit_bid = $data->deposit_bid;
+    if($product->updatethree()){
         http_response_code(200);
-        echo json_encode(array("message" => "Счёт обновлен."),
+        echo json_encode(array("message" => "Товар обновлен."),
             JSON_UNESCAPED_UNICODE);
     }
     else
     {
         http_response_code(583);
-        echo json_encode(array("message" => "Невозможно обновить счёт."),
+        echo json_encode(array("message" => "Невозможно обновить товар."),
             JSON_UNESCAPED_UNICODE);
     }

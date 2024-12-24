@@ -5,20 +5,20 @@ header("Access-Control-Allow-Methods: delete");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 include_once '../config/database.php';
-include_once '../objects/Account.php';
+include_once '../objects/Deposit.php';
 $database = new Database();
 $db = $database->getConnection();
-$product = new \objects\Account($db);
+$product = new \objects\Deposit($db);
 $data = json_decode(file_get_contents("php://input"));
-$product->account_id = $data->account_id;
-if($product->delete()) {
+$product->deposit_id = $data->deposit_id;
+if($product->deletethree()) {
     http_response_code(200);
-    echo json_encode(array("message" => "Счёт удален."),
+    echo json_encode(array("message" => "Аккаунт удален."),
         JSON_UNESCAPED_UNICODE);
 }
 else
 {
     http_response_code(503);
-    echo json_encode(array("message" => "Невозможно удалить Счёт."),
+    echo json_encode(array("message" => "Невозможно удалить аккаунт."),
         JSON_UNESCAPED_UNICODE);
 }

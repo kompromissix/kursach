@@ -64,4 +64,55 @@ class Clients
 
         return false;
     }
+    
+   function deletetwo()
+   {
+       $query = "delete from ".$this->table_name." where clients_id=:clients_id";
+       $stmt = $this->conn->prepare($query);
+       $this->clients_id = htmlspecialchars(strip_tags($this->clients_id));
+       $stmt->bindParam(':clients_id',$this->clients_id);
+       if($stmt->execute()){
+           return true;
+       }
+       return false;
+   }
+   function  searchtwo($keyword)
+   {
+       $query="select clients_name, clients_passports, clients_address, clients_telephone
+               from ".$this->table_name." ";
+
+       $stmt = $this->conn->prepare($query);
+       $keyword=htmlspecialchars(strip_tags($keyword));
+       $keyword="%$keyword%";
+       $stmt->bindParam(1,$keyword);
+       $stmt->bindParam(2,$keyword);
+       $stmt->bindParam(3,$keyword);
+       $stmt->execute();
+       return $stmt;
+   }
+   function updatetwo()
+   {
+       $query = "update " . $this->table_name . " set clients_name=:clients_name,
+                                                clients_passports=:clients_passports,
+                                                clients_address=:clients_address,
+                                                clients_telephone=:clients_telephone
+                                                where clients_id=:clients_id";
+       $stmt = $this->conn->prepare($query);
+       $this->clients_name = htmlspecialchars(strip_tags($this->clients_name));
+       $this->clients_passports = htmlspecialchars(strip_tags($this->clients_passports));
+       $this->clients_address = htmlspecialchars(strip_tags($this->clients_address));
+       $this->clients_telephone = htmlspecialchars(strip_tags($this->clients_telephone));
+       $this->clients_id = htmlspecialchars(strip_tags($this->clients_id));
+
+       $stmt->bindParam(':clients_name',$this->clients_name);
+       $stmt->bindParam(':clients_passports',$this->clients_passports);
+       $stmt->bindParam(':clients_address',$this->clients_address);
+       $stmt->bindParam(':clients_telephone',$this->clients_telephone);
+       $stmt->bindParam(':clients_id',$this->clients_id);
+
+       if($stmt->execute()){
+           return true;
+       }
+       return false;
+   }
 }
